@@ -7,6 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
   const deleteCardBtn = document.querySelectorAll(".delete-btn");
+  // Selecteur Cartes & Collon
+  const cards = document.querySelectorAll(".card");
+  const columns = document.querySelectorAll(".column");
 
   let title;
   let content;
@@ -17,8 +20,8 @@ window.addEventListener("DOMContentLoaded", () => {
   addCardBtn.addEventListener("click", () => {
     title = prompt("Titre*");
     content = prompt("Contenu*");
-    priority = prompt("Priorité","low"); //"éventuellement une priorité"
-    todo.innerHTML+=```
+    priority = prompt("Priorité", "low"); //"éventuellement une priorité"
+    todo.innerHTML += ```
     <div class="card" data-id="${index++}" data-priority="${priority}">
       <h3>${title}</h3>
       <p>${content}</p>
@@ -40,4 +43,37 @@ window.addEventListener("DOMContentLoaded", () => {
       card.remove();
     });
   });
+
+
+  // Drag & Drop
+  let draggedCard = null;
+
+  // Drag start / end
+  cards.forEach((card) => {
+    card.addEventListener("dragstart", (e) => {
+      draggedCard = card;
+    });
+
+    card.addEventListener("dragend", () => {
+      draggedCard = null;
+    });
+  });
+
+  // Drag over
+  columns.forEach((column) => {
+    column.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    column.addEventListener("drop", () => {
+
+      if (draggedCard) {
+        column.appendChild(draggedCard);
+
+        const newStatus = column.getAttribute("data-status");
+        draggedCard.setAttribute("data-status", newStatus);
+      }
+    });
+  });
+
 });
