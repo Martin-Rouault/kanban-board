@@ -7,8 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
   // Selecteur Cartes & Collon
-  const cards = document.querySelectorAll(".card");
+  const card = document.querySelectorAll(".card");
   const columns = document.querySelectorAll(".column");
+  const kaban = document.querySelector(".kanban");
 
   let title;
   let content;
@@ -41,13 +42,16 @@ window.addEventListener("DOMContentLoaded", () => {
   let draggedCard = null;
 
   // Drag start / end
-    card.addEventListener("dragstart", (e) => {
+  todo.addEventListener("dragstart", (e) => {
+    if (e.target.classList.contains("card")) {
+      const card = e.target;
       draggedCard = card;
-    });
+    }
+  });
 
-    card.addEventListener("dragend", () => {
-      draggedCard = null;
-    });
+  todo.addEventListener("dragend", () => {
+    draggedCard = null;
+  });
 
   // Drag over
   columns.forEach((column) => {
@@ -66,7 +70,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Delete card
-  todo.addEventListener("click", (event) => {
+  kaban.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
       event.target.parentElement.remove();
     }
