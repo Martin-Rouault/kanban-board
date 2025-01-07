@@ -6,8 +6,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const addCardBtn = document.getElementById("addCardBtn");
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
-  // Selecteur Cartes & Collon
-  const cards = document.querySelectorAll(".card");
   const columns = document.querySelectorAll(".column");
 
   let title;
@@ -27,7 +25,38 @@ window.addEventListener("DOMContentLoaded", () => {
       <div class="delete-btn">Supprimer<div>
     </div>  
     `;
+
+    // Selecteur Cartes
+    const cards = document.querySelectorAll(".card");
+    // Drag & Drop
+    let draggedCard = null;
+    // Drag start / end
+    cards.forEach((card) => {
+      card.addEventListener("dragstart", (e) => {
+        draggedCard = card;
+      });
+
+      card.addEventListener("dragend", () => {
+        draggedCard = null;
+      });
+    });
+    // Drag over
+    columns.forEach((column) => {
+      column.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      column.addEventListener("drop", () => {
+        if (draggedCard) {
+          column.appendChild(draggedCard);
+
+          const newStatus = column.getAttribute("data-status");
+          draggedCard.setAttribute("data-status", newStatus);
+        }
+      });
+    });
   });
+
 
   searchInput.addEventListener("input", () => {
     // ...
@@ -35,34 +64,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   sortByPriorityBtn.addEventListener("click", () => {
     // ...
-  });
-
-  // Drag & Drop
-  let draggedCard = null;
-
-  // Drag start / end
-    card.addEventListener("dragstart", (e) => {
-      draggedCard = card;
-    });
-
-    card.addEventListener("dragend", () => {
-      draggedCard = null;
-    });
-
-  // Drag over
-  columns.forEach((column) => {
-    column.addEventListener("dragover", (e) => {
-      e.preventDefault();
-    });
-
-    column.addEventListener("drop", () => {
-      if (draggedCard) {
-        column.appendChild(draggedCard);
-
-        const newStatus = column.getAttribute("data-status");
-        draggedCard.setAttribute("data-status", newStatus);
-      }
-    });
   });
 
   // Delete card
