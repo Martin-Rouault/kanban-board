@@ -6,7 +6,10 @@ window.addEventListener("DOMContentLoaded", () => {
   const addCardBtn = document.getElementById("addCardBtn");
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
+  // Selecteur Cartes & Collon
+  const card = document.querySelectorAll(".card");
   const columns = document.querySelectorAll(".column");
+  const kaban = document.querySelector(".kanban");
 
   let title;
   let content;
@@ -25,26 +28,36 @@ window.addEventListener("DOMContentLoaded", () => {
       <div class="delete-btn">Supprimer<div>
     </div>  
     `;
+  });
 
-    // Selecteur Cartes
-    const cards = document.querySelectorAll(".card");
-    // Drag & Drop
-    let draggedCard = null;
-    // Drag start / end
-    cards.forEach((card) => {
-      card.addEventListener("dragstart", (e) => {
-        draggedCard = card;
-      });
+  searchInput.addEventListener("input", () => {
+    // ...
+  });
 
-      card.addEventListener("dragend", () => {
-        draggedCard = null;
-      });
+  sortByPriorityBtn.addEventListener("click", () => {
+    // ...
+  });
+
+  // Drag & Drop
+  let draggedCard = null;
+
+  // Drag start / end
+  todo.addEventListener("dragstart", (e) => {
+    if (e.target.classList.contains("card")) {
+      const card = e.target;
+      draggedCard = card;
+    }
+  });
+
+  todo.addEventListener("dragend", () => {
+    draggedCard = null;
+  });
+
+  // Drag over
+  columns.forEach((column) => {
+    column.addEventListener("dragover", (e) => {
+      e.preventDefault();
     });
-    // Drag over
-    columns.forEach((column) => {
-      column.addEventListener("dragover", (e) => {
-        e.preventDefault();
-      });
 
       column.addEventListener("drop", () => {
         if (draggedCard) {
@@ -67,7 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Delete card
-  todo.addEventListener("click", (event) => {
+  kaban.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
       event.target.parentElement.remove();
     }
