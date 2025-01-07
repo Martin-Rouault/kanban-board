@@ -23,8 +23,9 @@ window.addEventListener("DOMContentLoaded", () => {
       <h3>${title}</h3>
       <p>${content}</p>
       <div class="delete-btn">Supprimer</div>
-    </div>  
+    </div>
     `;
+    localStorage.setItem(todo.children,index,priority,title,content);
 
     // Drag & Drop
     let draggedCard = null;
