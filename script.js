@@ -6,6 +6,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const addCardBtn = document.getElementById("addCardBtn");
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
+  const deleteCardBtn = document.querySelectorAll(".delete-btn");
+
   let title;
   let content;
   let priority;
@@ -30,5 +32,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   sortByPriorityBtn.addEventListener("click", () => {
     // ...
+  });
+
+  deleteCardBtn.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      const card = event.target.parentElement;
+      card.remove();
+    });
   });
 });
