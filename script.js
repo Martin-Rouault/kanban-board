@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
     content = prompt("Contenu*");
     priority = prompt("Priorité","low"); //"éventuellement une priorité"
     todo.innerHTML+=```
-    <div class="card" data-id="${index++}" data-priority="${priotity}">
+    <div class="card" data-id="${index++}" data-priority="${priority}">
       <h3>${title}</h3>
       <p>${content}</p>
     </div>  
