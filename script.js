@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let content;
   let priority;
   let index = 0;
-  const todo = document.getElementsById("todo");
+  const todo = document.getElementById("todo");
   // Éventuellement, on écoute les événements
   addCardBtn.addEventListener("click", () => {
     title = prompt("Titre*");
