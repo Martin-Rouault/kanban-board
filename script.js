@@ -4,12 +4,9 @@ console.log("Kanban JS loaded...");
 window.addEventListener("DOMContentLoaded", () => {
   // Ici, on récupère les éléments du DOM
   const addCardBtn = document.getElementById("addCardBtn");
-  const searchInput = document.getElementById("searchInput");
-  const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
   // Selecteur Cartes & Collon
-  const card = document.querySelectorAll(".card");
   const columns = document.querySelectorAll(".column");
-  const kaban = document.querySelector(".kanban");
+  const kanban = document.querySelector(".kanban");
 
   let title;
   let content;
@@ -25,39 +22,32 @@ window.addEventListener("DOMContentLoaded", () => {
     <div class="card" draggable="true" data-id="${index++}" data-priority="${priority}">
       <h3>${title}</h3>
       <p>${content}</p>
-      <div class="delete-btn">Supprimer<div>
+      <div class="delete-btn">Supprimer</div>
     </div>  
     `;
-  });
 
-  searchInput.addEventListener("input", () => {
-    // ...
-  });
+    // Drag & Drop
+    let draggedCard = null;
+    const cards = document.querySelectorAll(".card");
 
-  sortByPriorityBtn.addEventListener("click", () => {
-    // ...
-  });
+    // Drag start
+    cards.forEach((card) => {
+      card.addEventListener("dragstart", (e) => {
+        draggedCard = card;
+      });
 
-  // Drag & Drop
-  let draggedCard = null;
-
-  // Drag start / end
-  todo.addEventListener("dragstart", (e) => {
-    if (e.target.classList.contains("card")) {
-      const card = e.target;
-      draggedCard = card;
-    }
-  });
-
-  todo.addEventListener("dragend", () => {
-    draggedCard = null;
-  });
-
-  // Drag over
-  columns.forEach((column) => {
-    column.addEventListener("dragover", (e) => {
-      e.preventDefault();
+      card.addEventListener("dragend", () => {
+        draggedCard = null;
+      });
     });
+
+
+
+    // Drag over
+    columns.forEach((column) => {
+      column.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
 
       column.addEventListener("drop", () => {
         if (draggedCard) {
@@ -70,19 +60,13 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
-  searchInput.addEventListener("input", () => {
-    // ...
-  });
-
-  sortByPriorityBtn.addEventListener("click", () => {
-    // ...
-  });
-
   // Delete card
-  kaban.addEventListener("click", (event) => {
+  kanban.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
       event.target.parentElement.remove();
     }
   });
+
 });
+
+
