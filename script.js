@@ -6,7 +6,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const addCardBtn = document.getElementById("addCardBtn");
   const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
-  const deleteCardBtn = document.querySelectorAll(".delete-btn");
   // Selecteur Cartes & Collon
   const cards = document.querySelectorAll(".card");
   const columns = document.querySelectorAll(".column");
@@ -21,12 +20,13 @@ window.addEventListener("DOMContentLoaded", () => {
     title = prompt("Titre*");
     content = prompt("Contenu*");
     priority = prompt("Priorité", "low"); //"éventuellement une priorité"
-    todo.innerHTML += ```
-    <div class="card" data-id="${index++}" data-priority="${priority}">
+    todo.innerHTML += `
+    <div class="card" draggable="true" data-id="${index++}" data-priority="${priority}">
       <h3>${title}</h3>
       <p>${content}</p>
+      <div class="delete-btn">Supprimer<div>
     </div>  
-    ```;
+    `;
   });
 
   searchInput.addEventListener("input", () => {
@@ -37,19 +37,10 @@ window.addEventListener("DOMContentLoaded", () => {
     // ...
   });
 
-  deleteCardBtn.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      const card = event.target.parentElement;
-      card.remove();
-    });
-  });
-
-
   // Drag & Drop
   let draggedCard = null;
 
   // Drag start / end
-  cards.forEach((card) => {
     card.addEventListener("dragstart", (e) => {
       draggedCard = card;
     });
@@ -57,7 +48,6 @@ window.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("dragend", () => {
       draggedCard = null;
     });
-  });
 
   // Drag over
   columns.forEach((column) => {
@@ -66,7 +56,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     column.addEventListener("drop", () => {
-
       if (draggedCard) {
         column.appendChild(draggedCard);
 
@@ -76,4 +65,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Delete card
+  todo.addEventListener("click", (event) => {
+    if (event.target.classList.contains("delete-btn")) {
+      event.target.parentElement.remove();
+    }
+  });
 });
