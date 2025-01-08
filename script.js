@@ -41,8 +41,6 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-
-
     // Drag over
     columns.forEach((column) => {
       column.addEventListener("dragover", (e) => {
