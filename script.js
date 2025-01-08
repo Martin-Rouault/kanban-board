@@ -11,13 +11,13 @@ window.addEventListener("DOMContentLoaded", () => {
   // Selecteur Cartes & Collon
   const columns = document.querySelectorAll(".column");
   const kanban = document.querySelector(".kanban");
-  let values
+  let values;
   let title;
   let content;
   let priority;
   
   const todo = document.getElementById("todo");
-  const nbItems = localStorage.length-1;
+  let nbItems = localStorage.length;
 
   // Parcourir toutes les clés du localStorage
   for (let i = 0; i < nbItems; i++) {
@@ -27,7 +27,7 @@ window.addEventListener("DOMContentLoaded", () => {
     console.log(`Clé : ${key}, Valeur : ${value}`);
 
     values = JSON.parse(value);
-    console.log(values);
+
     if (key!=="todo") {
       todo.innerHTML += `
         <div class="card" draggable="true" data-id="${values.id}" data-priority="${values.prio}">
@@ -44,21 +44,21 @@ window.addEventListener("DOMContentLoaded", () => {
     title = prompt("Titre*");
     content = prompt("Contenu*");
     priority = prompt("Priorité", "low"); //"éventuellement une priorité"
+    //nbItems = localStorage.length;
+    let list = JSON.stringify({
+      id: nbItems,
+      prio: priority,
+      titl: title,
+      cont: content
+    });
+    localStorage.setItem(`${nbItems}`,list); //info store
     todo.innerHTML += `
-    <div class="card" draggable="true" data-id="${index++}" data-priority="${priority}">
+    <div class="card" draggable="true" data-id="${nbItems}" data-priority="${priority}">
       <h3>${title}</h3>
       <p>${content}</p>
       <div class="delete-btn">Supprimer</div>
     </div>
     `;
-
-    let list = JSON.stringify({
-        id: index,
-        prio: priority,
-        titl: title,
-        cont: content
-    });
-    localStorage.setItem(`${nbItems}`,list); //info store
 
     // Drag & Drop
     let draggedCard = null;
@@ -69,8 +69,6 @@ window.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("dragstart", (e) => {
         draggedCard = card;
       });
-
-      localStorage.setItem(todo.children, index, priority, title, content); //info store
 
       card.addEventListener("dragend", () => {
         draggedCard = null;
@@ -98,14 +96,10 @@ window.addEventListener("DOMContentLoaded", () => {
   kanban.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
       event.target.parentElement.remove();
-      localStorage.setItem( 
-        event.target.parentElement.getAttribute("data-id"), 
-        event.target.parentElement.getAttribute("data-priority"), 
-        event.target.parentElement.getElementsByTagName("h3").textContent, 
-        event.target.parentElement.getElementsByTagName("p").textContent
-        );
-      console.log(event.target.parentElement.getAttribute("data-id"));
+      localStorage.removeItem(event.target.parentElement.getAttribute("data-id"));
+      nbItems=localStorage.length;
     };
+    const cards = document.querySelectorAll(".card");
   });
 
   // Sort By Priority
