@@ -4,6 +4,7 @@ console.log("Kanban JS loaded...");
 window.addEventListener("DOMContentLoaded", () => {
   // Ici, on récupère les éléments du DOM
   const addCardBtn = document.getElementById("addCardBtn");
+  const searchInput = document.getElementById("searchInput");
   const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
   // Selecteur Cartes & Collon
   const columns = document.querySelectorAll(".column");
@@ -21,8 +22,8 @@ window.addEventListener("DOMContentLoaded", () => {
     priority = prompt("Priorité", "low"); //"éventuellement une priorité"
     todo.innerHTML += `
     <div class="card" draggable="true" data-id="${index++}" data-priority="${priority}">
-      <h3>${title}</h3>
-      <p>${content}</p>
+      <h3 class="title">${title}</h3>
+      <p class="content">${content}</p>
       <div class="delete-btn">Supprimer</div>
     </div>
     `;
@@ -95,6 +96,21 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  // Search Input
+  searchInput.addEventListener("keydown", (event) => {
+    const value = event.target.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card) => {
+      const title = card.querySelector(".title").innerText.toLowerCase();
+      const content = card.querySelector(".content").innerText.toLowerCase();
+
+      if (title.includes(value) || content.includes(value)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
 });
-
-
