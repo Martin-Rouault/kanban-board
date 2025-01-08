@@ -26,7 +26,8 @@ window.addEventListener("DOMContentLoaded", () => {
       <div class="delete-btn">Supprimer</div>
     </div>
     `;
-    localStorage.setItem(todo.children, index, priority, title, content);
+
+    localStorage.setItem(todo.children, index, priority, title, content); //info store
 
     // Drag & Drop
     let draggedCard = null;
@@ -37,6 +38,8 @@ window.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("dragstart", (e) => {
         draggedCard = card;
       });
+
+      localStorage.setItem(todo.children, index, priority, title, content); //info store
 
       card.addEventListener("dragend", () => {
         draggedCard = null;
@@ -64,7 +67,14 @@ window.addEventListener("DOMContentLoaded", () => {
   kanban.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-btn")) {
       event.target.parentElement.remove();
-    }
+      localStorage.setItem( 
+        event.target.getAttribute("data-id"), 
+        event.target.getAttribute("data-priority"), 
+        event.target.getElementsByTagName("h3").textContent, 
+        event.target.getElementsByTagName("p").textContent
+        );
+      console.log(localStorage.getItem);
+    };
   });
 
   // Sort By Priority
