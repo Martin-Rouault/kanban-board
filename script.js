@@ -4,6 +4,7 @@ console.log("Kanban JS loaded...");
 window.addEventListener("DOMContentLoaded", () => {
   // Ici, on récupère les éléments du DOM
   const addCardBtn = document.getElementById("addCardBtn");
+  const sortByPriorityBtn = document.getElementById("sortByPriorityBtn");
   // Selecteur Cartes & Collon
   const columns = document.querySelectorAll(".column");
   const kanban = document.querySelector(".kanban");
@@ -66,6 +67,24 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Sort By Priority
+  sortByPriorityBtn.addEventListener("click", () => {
+    columns.forEach((column) => {
+      const cards = Array.from(column.querySelectorAll(".card"));
+
+      cards.sort((a, b) => {
+        const priorityOrder = { high: 3, medium: 2, low: 1 };
+        const priorityA = priorityOrder[a.getAttribute("data-priority")] || 0;
+        const priorityB = priorityOrder[b.getAttribute("data-priority")] || 0;
+
+        return priorityB - priorityA;
+      });
+
+      cards.forEach((card) => {
+        column.appendChild(card);
+      });
+    });
+  });
 });
 
 
